@@ -1,4 +1,3 @@
-import 'package:first_application/features/presentation/components/portfolio_sliver_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class PortfolioGallerySubPage extends StatelessWidget {
@@ -8,7 +7,6 @@ class PortfolioGallerySubPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: <Widget>[
-        PortfolioSliverAppBar('Gallery'),
         _buildSliverContent(),
       ],
     );

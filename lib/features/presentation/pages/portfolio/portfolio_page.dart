@@ -1,6 +1,8 @@
+import 'package:first_application/features/presentation/components/portfolio_sliver_app_bar.dart';
 import 'package:first_application/features/presentation/pages/portfolio/portfolio_gallery_sub_page.dart';
 import 'package:first_application/features/presentation/pages/portfolio/portfolio_tutorials_sub_page.dart';
 import 'package:flutter/material.dart';
+import 'package:tuple/tuple.dart';
 
 class PortfolioPage extends StatefulWidget {
   PortfolioPage({Key key}) : super(key: key);
@@ -10,9 +12,9 @@ class PortfolioPage extends StatefulWidget {
 }
 
 class _PortfolioPageState extends State<PortfolioPage> {
-  final _pages = [
-    PortfolioTutorialsSubPage(),
-    PortfolioGallerySubPage(),
+  final List<Tuple2> _pages = [
+    Tuple2('Tutorials', PortfolioTutorialsSubPage()),
+    Tuple2('Gallery', PortfolioGallerySubPage()),
   ];
 
   int _selectedPage = 0;
@@ -22,14 +24,21 @@ class _PortfolioPageState extends State<PortfolioPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        children: _pages,
-        onPageChanged: (index) {
-          setState(() {
-            _selectedPage = index;
-          });
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            PortfolioSliverAppBar(_pages[_selectedPage].item1),
+          ];
         },
-        controller: _pageController,
+        body: PageView(
+          children: _pages.map<Widget>((Tuple2 page) => page.item2).toList(),
+          onPageChanged: (index) {
+            setState(() {
+              _selectedPage = index;
+            });
+          },
+          controller: _pageController,
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: [
